@@ -1,0 +1,168 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: #0d1b2a;
+    background: hsl(240, 6%, 97%);
+}
+
+@font-face {
+    font-family: 'clear_sansregular';
+    src: url('ClearSans-Regular-webfont.eot');
+    src: url('ClearSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('ClearSans-Regular-webfont.woff2') format('woff2'),
+        url('ClearSans-Regular-webfont.woff') format('woff'),
+        url('ClearSans-Regular-webfont.ttf') format('truetype'),
+        url('ClearSans-Regular-webfont.svg#clear_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'clear_sansbold';
+    src: url('ClearSans-Bold-webfont.eot');
+    src: url('ClearSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('ClearSans-Bold-webfont.woff2') format('woff2'),
+        url('ClearSans-Bold-webfont.woff') format('woff'),
+        url('ClearSans-Bold-webfont.ttf') format('truetype'),
+        url('ClearSans-Bold-webfont.svg#clear_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.container {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px 48px;
+    gap: 3px;
+
+}
+
+.board {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 3px 3px;
+    gap: 3px;
+    background-color: #ffffff;
+}
+
+/* Theme tokens for consistent color usage. */
+:root {
+    --primary: #2f5bff;
+    --primary-dark: #1c3fcc;
+    --secondary: #eef2ff;
+    --border: #d9e2f0;
+    --muted: #5e6a79;
+    --success: #1f9d55;
+    --warning: #ff8800;
+    --danger: #dc2626;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.num {
+    border-radius: 2px;
+    padding: 50px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 45px;
+    color: #6d6577;
+    animation-duration: 2s;
+}
+
+.num.n0 {
+    background-color: #b5bfc9;
+}
+
+.num.n2 {
+    background-color: #daeaee;
+}
+
+.num.n4 {
+    background-color: #c9deed;
+}
+
+.num.n8 {
+    background-color: #7ac7f3;
+    color: #555b61;
+}
+
+.num.n16 {
+    background-color: #64a3f6;
+    color: #e1e9f1;
+}
+
+.num.n32 {
+    background-color: #5f83f7;
+    color: #f0f3f7;
+}
+
+.num.n64 {
+    background-color: #5a3bf7;
+    color: #e2e8ee;
+}
+
+.num.n128 {
+    background-color: #9373ed;
+    color: #f6f9ff;
+}
+
+.num.n256 {
+    background-color: #b673ed;
+    color: #f8fcff;
+}
+
+.num.n512 {
+    background-color: #d073ed;
+    color: #fbfdff;
+}
+
+.num.n1024 {
+    background-color: #d273ed;
+    color: #fbfdff;
+}
+
+.num.n2048 {
+    background-color: #ed73e7;
+    color: #ffffff;
+}
+
+.newGame {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-200px);
+  }
+}
+
+.up {
+  /* Apply the animation */
+  animation-name: slideUp;
+  animation-duration: 10ms;
+  animation-iteration-count: 1;
+}
