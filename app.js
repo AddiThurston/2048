@@ -3,6 +3,8 @@ setupGrid();
 displayGrid();
 const statusText = document.getElementById("status");
 const newGame = document.getElementById("newGame");
+const scoreText = document.getElementById("score");
+let score = 0;
 
 function setupGrid() {
     for (let i = 0; i < 4; i++) {
@@ -81,6 +83,7 @@ document.addEventListener("keydown", function (event) {
         default:
             return;
     }
+    scoreText.textContent = "Score: " + score;
 });
 
 function up() {
@@ -95,6 +98,7 @@ function up() {
                 if (grid[i][x] == val) {
                     grid[y][x] = 0;
                     grid[i][x] += val;
+                    score += val*2;
                 } else if (grid[i][x] == 0) {
                     grid[y][x] = 0;
                     grid[i][x] = val;
@@ -119,6 +123,7 @@ function down() {
                 if (grid[i][x] == val) {
                     grid[y][x] = 0;
                     grid[i][x] += val;
+                    score += val*2;
                 } else if (grid[i][x] == 0) {
                     grid[y][x] = 0;
                     grid[i][x] = val;
@@ -143,6 +148,7 @@ function left() {
                 if (grid[y][i] == val) {
                     grid[y][x] = 0;
                     grid[y][i] += val;
+                    score += val*2;
                 } else if (grid[y][i] == 0) {
                     grid[y][x] = 0;
                     grid[y][i] = val;
@@ -167,6 +173,7 @@ function right() {
                 if (grid[y][i] == val) {
                     grid[y][x] = 0;
                     grid[y][i] += val;
+                    score += val*2;
                 } else if (grid[y][i] == 0) {
                     grid[y][x] = 0;
                     grid[y][i] = val;
