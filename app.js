@@ -1,10 +1,10 @@
 let grid = [];
-setupGrid();
-displayGrid();
 const statusText = document.getElementById("status");
 const newGame = document.getElementById("newGame");
 const scoreText = document.getElementById("score");
 let score = 0;
+setupGrid();
+displayGrid();
 
 function setupGrid() {
     for (let i = 0; i < 4; i++) {
@@ -21,11 +21,15 @@ function displayGrid() {
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             const val = grid[i][j];
-            const element = document.getElementById((i * 10 + j).toString());
-            element.textContent = val;
-            element.className = "num n" + val;
-            if (val == 0) {
-                element.textContent = "";
+            const square = document.getElementById((i * 10 + j).toString());
+            square.textContent = "";
+            square.className = "num n0";
+            resetAnimation(square);
+            if (val != 0) {
+                const tile = document.createElement('div');
+                tile.className = "tile num n" + val;
+                tile.textContent = val;
+                square.appendChild(tile);
             }
         }
     }
@@ -44,49 +48,68 @@ function displayGrid() {
     }
 }
 
-newGame.addEventListener("click", function(event) {
+newGame.addEventListener("click", function (event) {
     setupGrid();
     displayGrid();
 })
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", async function (event) {
     const old = structuredClone(grid);
     switch (event.key) {
         case "ArrowLeft":
             event.preventDefault();
-            left();
+            await left();
             if (JSON.stringify(old) === JSON.stringify(grid)) break;
             newNum();
-            displayGrid();
             break;
         case "ArrowRight":
             event.preventDefault();
-            right();
+            await right();
             if (JSON.stringify(old) === JSON.stringify(grid)) break;
             newNum();
-            displayGrid();
             break;
         case "ArrowUp":
             event.preventDefault();
-            up();
+            await up();
             if (JSON.stringify(old) === JSON.stringify(grid)) break;
             newNum();
-            displayGrid();
             break;
         case "ArrowDown":
             event.preventDefault();
-            down();
+            await down();
             if (JSON.stringify(old) === JSON.stringify(grid)) break;
             newNum();
-            displayGrid();
             break;
         default:
             return;
     }
     scoreText.textContent = "Score: " + score;
+    displayGrid();
 });
 
-function up() {
+function waitForAnimationEnd(element) {
+    return new Promise(resolve => {
+        element.addEventListener('transitionend', resolve, { once: true });
+    });
+}
+
+function resetAnimation(element) {
+    element.style.transition = 'transform 0s';
+    element.style.transform = 'none';
+}
+
+function translate(element, x0, y0, x, y) {
+    if (element == null) return;
+    element.style.transition = "transform 0.15s";
+    if (y != y0)
+        element.style.transform = 'translateY(' + (y - y0) * 108 + 'px)';
+    else
+        element.style.transform = 'translateX(' + (x - x0) * 108 + 'px)';
+
+}
+
+async function up() {
+    let element;
     for (let y = 1; y < 4; y++) {
         for (let x = 0; x < 4; x++) {
             let val = grid[y][x];
@@ -98,20 +121,27 @@ function up() {
                 if (grid[i][x] == val) {
                     grid[y][x] = 0;
                     grid[i][x] += val;
-                    score += val*2;
+                    score += val * 2;
                 } else if (grid[i][x] == 0) {
                     grid[y][x] = 0;
                     grid[i][x] = val;
                 } else {
+                    i++;
                     grid[y][x] = 0;
-                    grid[i + 1][x] = val;
+                    grid[i][x] = val;
                 }
+                element = document.getElementById((y * 10 + x).toString()).firstChild;
+                translate(element, x, y, x, i);
             }
         }
     }
+    if (element != null) {
+        const done = await waitForAnimationEnd(element);
+    }
 }
 
-function down() {
+async function down() {
+    let element;
     for (let y = 2; y >= 0; y--) {
         for (let x = 0; x < 4; x++) {
             let val = grid[y][x];
@@ -123,20 +153,27 @@ function down() {
                 if (grid[i][x] == val) {
                     grid[y][x] = 0;
                     grid[i][x] += val;
-                    score += val*2;
+                    score += val * 2;
                 } else if (grid[i][x] == 0) {
                     grid[y][x] = 0;
                     grid[i][x] = val;
                 } else {
+                    i--;
                     grid[y][x] = 0
-                    grid[i - 1][x] = val
+                    grid[i][x] = val
                 }
+                element = document.getElementById((y * 10 + x).toString()).firstChild;
+                translate(element, x, y, x, i);
             }
         }
     }
+    if (element != null) {
+        const done = await waitForAnimationEnd(element);
+    }
 }
 
-function left() {
+async function left() {
+    let element;
     for (let y = 0; y < 4; y++) {
         for (let x = 1; x < 4; x++) {
             let val = grid[y][x];
@@ -148,20 +185,27 @@ function left() {
                 if (grid[y][i] == val) {
                     grid[y][x] = 0;
                     grid[y][i] += val;
-                    score += val*2;
+                    score += val * 2;
                 } else if (grid[y][i] == 0) {
                     grid[y][x] = 0;
                     grid[y][i] = val;
                 } else {
+                    i++;
                     grid[y][x] = 0
-                    grid[y][i + 1] = val
+                    grid[y][i] = val
                 }
+                element = document.getElementById((y * 10 + x).toString()).firstChild;
+                translate(element, x, y, i, y);
             }
         }
     }
+    if (element != null) {
+        const done = await waitForAnimationEnd(element);
+    }
 }
 
-function right() {
+async function right() {
+    let element;
     for (let y = 0; y < 4; y++) {
         for (let x = 2; x >= 0; x--) {
             let val = grid[y][x];
@@ -173,16 +217,22 @@ function right() {
                 if (grid[y][i] == val) {
                     grid[y][x] = 0;
                     grid[y][i] += val;
-                    score += val*2;
+                    score += val * 2;
                 } else if (grid[y][i] == 0) {
                     grid[y][x] = 0;
                     grid[y][i] = val;
                 } else {
+                    i--;
                     grid[y][x] = 0
-                    grid[y][i - 1] = val
+                    grid[y][i] = val
                 }
+                element = document.getElementById((y * 10 + x).toString()).firstChild;
+                translate(element, x, y, i, y);
             }
         }
+    }
+    if (element != null) {
+        const done = await waitForAnimationEnd(element);
     }
 }
 

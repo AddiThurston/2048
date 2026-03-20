@@ -93,6 +93,11 @@ body {
     0 -1px 2px #4f557bb3 inset, 
     /* Bottom shadow */
     0 1px 2px rgba(255, 255, 255, 0.497) inset;
+    position: relative;
+}
+
+.tile {
+    z-index: 999;
 }
 
 .num.n0 {
