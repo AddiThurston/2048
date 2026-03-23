@@ -2,9 +2,22 @@ let grid = [];
 const statusText = document.getElementById("status");
 const newGame = document.getElementById("newGame");
 const scoreText = document.getElementById("score");
+const highscoreText = document.getElementById("highscore");
+let highscore = 0;
 let score = 0;
-setupGrid();
-displayGrid();
+init();
+
+function init() {
+    let h = parseInt(localStorage.getItem("highscore"));
+    let s = parseInt(localStorage.getItem("score"));
+    let g = JSON.parse(localStorage.getItem("board"));   
+
+    if (h != null) highscore = h;
+    if (s != null) score = s;
+    setupGrid();
+    if (g != null) grid = g;
+    displayGrid();
+}
 
 function setupGrid() {
     for (let i = 0; i < 4; i++) {
@@ -33,6 +46,10 @@ function displayGrid() {
             }
         }
     }
+    
+    scoreText.textContent = "Score: " + score;
+    if (score > highscore) highscore = score;
+    highscoreText.textContent = "High Score: " + highscore;
     if (isFull()) {
         okay = false;
         for (let i = 0; i < 4; i++) {
@@ -46,9 +63,14 @@ function displayGrid() {
             statusText.textContent = "You Lose";
         }
     }
+    localStorage.setItem("highscore", highscore.toString());
+    localStorage.setItem("score", score.toString());
+    localStorage.setItem("board", JSON.stringify(grid));
 }
 
 newGame.addEventListener("click", function (event) {
+    score = 0;
+    localStorage.setItem("score", 0);
     setupGrid();
     displayGrid();
 })
@@ -83,7 +105,6 @@ document.addEventListener("keydown", async function (event) {
         default:
             return;
     }
-    scoreText.textContent = "Score: " + score;
     displayGrid();
 });
 
