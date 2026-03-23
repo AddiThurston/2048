@@ -12,12 +12,12 @@ function init() {
     let s = parseInt(localStorage.getItem("score"));
     let g = JSON.parse(localStorage.getItem("board"));   
 
-    if (h != null) highscore = h;
+    if (h != null && h != NaN) highscore = h;
     else if (h == NaN) {
         localStorage.setItem("highscore", 0);
         highscore = 0;
     }
-    if (s != null) score = s;
+    if (s != null && s != NaN) score = s;
     else if (s == NaN) {
         localStorage.setItem("score", 0);
         score = 0;
@@ -72,7 +72,9 @@ function displayGrid() {
         }
     }
     localStorage.setItem("highscore", highscore.toString());
+    console.log("h " + highscore);
     localStorage.setItem("score", score.toString());
+    console.log("s " + score);
     localStorage.setItem("board", JSON.stringify(grid));
 }
 
