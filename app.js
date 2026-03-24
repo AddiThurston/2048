@@ -12,12 +12,10 @@ function init() {
     let s = localStorage.getItem("score");
     let g = JSON.parse(localStorage.getItem("board"));   
 
-    if (h != null && h != "NaN") highscore = h;
-    if (s != null && h != "NaN") score = s;
+    if (h != null && h != "NaN") highscore = parseInt(h);
+    if (s != null && h != "NaN") score = parseInt(s);
     setupGrid();
     if (g != null) grid = g;
-    console.log(h);
-    console.log(s);
     displayGrid();
 }
 
