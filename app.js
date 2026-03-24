@@ -15,9 +15,9 @@ function init() {
     if (h != null && h != "NaN") highscore = h;
     if (s != null && h != "NaN") score = s;
     setupGrid();
-    if (score == "NaN") score = 0;
-    if (highscore == "NaN") highscore = 0;
     if (g != null) grid = g;
+    console.log(h);
+    console.log(s);
     displayGrid();
 }
 
