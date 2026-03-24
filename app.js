@@ -8,12 +8,12 @@ let score = 0;
 init();
 
 function init() {
-    let h = parseInt(localStorage.getItem("highscore"));
-    let s = parseInt(localStorage.getItem("score"));
+    let h = localStorage.getItem("highscore");
+    let s = localStorage.getItem("score");
     let g = JSON.parse(localStorage.getItem("board"));   
 
-    if (h != null) highscore = h;
-    if (s != null) score = s;
+    if (h != null && h != "NaN") highscore = h;
+    if (s != null && h != "NaN") score = s;
     setupGrid();
     if (score == "NaN") score = 0;
     if (highscore == "NaN") highscore = 0;
